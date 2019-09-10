@@ -1,33 +1,44 @@
 package com.infotech.client;
 
 import com.infotech.entities.Employee;
-import com.infotech.entities.Address;
+import com.infotech.entities.Person;
+import com.infotech.entities.Student;
 import com.infotech.util.HibernateUtil;
-import org.hibernate.Hibernate;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
+import java.math.BigDecimal;
+import java.text.ParseException;
 import java.util.Date;
 
 public class SaveDataClientTest {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws ParseException {
         try(Session session = HibernateUtil.getSessionFactory().openSession()) {
+            Person person = new Person();
+            person.setName("Sudha Verma");
+            person.setGender("Female");
+
+            Employee employee = new Employee();
+            employee.setBonus(new BigDecimal ("277.389"));
+            employee.setDeptName("IT");
+            employee.setDoj(HibernateUtil.getDoj("18/12/2015"));
+            employee.setEmail("dipesh.cs@gmail.com");
+            employee.setName("Dipesh");
+            employee.setSalary(80000.2872);
+            employee.setGender("Male");
+
+            Student student = new Student();
+            student.setName("Shuruti");
+            student.setGender("Female");
+            student.setFee(20000.00f);
+            student.setSchoolName("DPS");
+            student.setSectionName("12th Std");
+
             session.beginTransaction();
-            Employee employee= new Employee();
-            employee.setEmployeeName("Barry Bingel");
-            employee.setEmail("barry.cs2017@gmail.com");
-            employee.setSalary(50000.00);
-            employee.setDoj(new Date());
-
-            Address address1 = new Address();
-            address1.setCity("Chennai");
-            address1.setPincode(9087727L);
-            address1.setState("Tamilnadu");
-            address1.setStreet("Park Street");
-
-            employee.setAddress(address1);
-            session.persist(employee);
+            session.save(person);
+            session.save(student);
+            session.save(employee);
 
             session.getTransaction().commit();
         } catch (HibernateException e) {

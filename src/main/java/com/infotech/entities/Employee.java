@@ -3,51 +3,34 @@ package com.infotech.entities;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Entity
 @Table(name="employee_table")
-@DynamicUpdate
-public class Employee {
+@DiscriminatorValue (value = "employee_type")
+public class Employee extends Person{
 
-    @Id
-    @Column(name="employee_id")
-    @GeneratedValue(strategy=GenerationType.IDENTITY)
-    private Integer employeeId;
-
-    @Column(name="employee_name",length=200,nullable=false)
-    private String employeeName;
-
-    @Column(name="email")
-    private String email;
+    @Column(name="salary",columnDefinition="DECIMAL(7,2)")
+    private Double salary;
 
     @Column(name="date_of_joining")
     private Date doj;
 
-    @Column(name="salary")
-    private Double salary;
+    @Column(name="dept_name",length=30)
+    private String deptName;
 
-    @OneToOne(cascade={CascadeType.PERSIST,CascadeType.REMOVE})
-    @JoinColumn(name="address_id")
-    private Address address;
+    @Column(name="bonus",precision=6,scale=3)
+    private BigDecimal bonus;
 
-    public Integer getEmployeeId() {
-        return employeeId;
+    @Column(name="email",length=30,unique=true)
+    private String email;
+
+    public Double getSalary() {
+        return salary;
     }
-    public void setEmployeeId(Integer employeeId) {
-        this.employeeId = employeeId;
-    }
-    public String getEmployeeName() {
-        return employeeName;
-    }
-    public void setEmployeeName(String employeeName) {
-        this.employeeName = employeeName;
-    }
-    public String getEmail() {
-        return email;
-    }
-    public void setEmail(String email) {
-        this.email = email;
+    public void setSalary(Double salary) {
+        this.salary = salary;
     }
     public Date getDoj() {
         return doj;
@@ -55,22 +38,24 @@ public class Employee {
     public void setDoj(Date doj) {
         this.doj = doj;
     }
-    public Double getSalary() {
-        return salary;
+    public String getDeptName() {
+        return deptName;
     }
-    public void setSalary(Double salary) {
-        this.salary = salary;
+    public void setDeptName(String deptName) {
+        this.deptName = deptName;
     }
 
-    public void setAddress(Address address) {
-        this.address = address;
+    public void setEmail(String email) {
+        this.email = email;
     }
-    public Address getAddress() {
-        return address;
+    public String getEmail() {
+        return email;
     }
-    @Override
-    public String toString() {
-        return "Employee [employeeId=" + employeeId + ", employeeName=" + employeeName + ", email=" + email + ", doj="
-                + doj + ", salary=" + salary + "]";
+
+    public void setBonus(BigDecimal bonus) {
+        this.bonus = bonus;
+    }
+    public BigDecimal getBonus() {
+        return bonus;
     }
 }

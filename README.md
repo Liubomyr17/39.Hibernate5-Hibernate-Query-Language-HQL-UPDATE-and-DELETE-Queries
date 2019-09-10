@@ -1,3 +1,3 @@
-# HibernateServiceAndDAOLayer
+# Single table inheritance strategy in hibernate
 
-Hibernate Example with Service and DAO layer
+Single table inheritance strategy in hibernate
